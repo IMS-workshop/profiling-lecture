@@ -25,7 +25,7 @@ def compute_factorials_for_list(numbers):
     
 
 def main():
-    numbers = read_data('numbers.txt')
+    numbers = read_data('numbers_small.txt')
     factorials = compute_factorials_for_list(numbers)
 
 

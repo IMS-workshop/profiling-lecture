@@ -1,0 +1,26 @@
+Yesterday, the following question was asked:
+
+Y is a 1D numpy array. How to calculate the difference between the sum
+of even elements and the sum of odd elements?
+
+Three different solutions were proposed:
+
+1. The loop
+
+even_sum = 0; odd_sum = 0
+for i in range(x.size):
+  if i%2 == 0:
+    even_sum += x[i]
+  else:
+    odd_sum += x[i]
+diff = even_sum - odd_sum
+
+2. The reshape
+
+diff = -float(np.diff(x.reshape(-1, 2).sum(axis=0)))
+
+2. The slicing trick
+
+diff = x[0::2].sum() - x[1::2].sum()
+
+Which on is the fastest? How does this depend on the input array size?

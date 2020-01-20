@@ -1,0 +1,27 @@
+This exercise is based on a question that was discussed in Fedora
+Linux recently: is caching of python binary code (in
+__pycache__/*.pyc) give enough of a speedup to justify the cost of
+storing both the .py file and one or more .pyc files?
+
+Q1: Is there a difference in speed between different Python
+"optimization levels" as set with 'python -O' or 'python -OO'
+for factorial.py?
+
+Q2: Is importing a module faster when a .pyc files is available?
+Use importing of pydoc_data.topics as a test case. It is the
+larges .py file in Python's stdlib.
+
+Background: when loading a python module, the source .py file is
+parsed and the bytecode is written to a binary file
+__pycache__/*.cpython-37.pyc or
+__pycache__/*.cpython-37.opt-1.pyc or
+__pycache__/*.cpython-37.opt-2.pyc.
+
+Python will load the .pyc file if .py exists and a matching .pyc file
+is found (appropriate interpreter version and optimization level, not
+older than the .py file).
+
+Relevant python command-line options:
+-O: turn on optimization level 1
+-OO: turn on optimziation level 2
+-B: do not write .pyc file

@@ -17,7 +17,7 @@
 %gets rid of navigation symbols
 \setbeamertemplate{navigation symbols}{}
 
-\title{Profiling and optimizing python code}
+\title{Profiling python code}
 \author{Zbigniew Jędrzejewski-Szmek}
 \institute{%
   \includegraphics[width=10em]{images/Logo-redhat-color-375.png}\\
@@ -50,7 +50,15 @@
 \end{frame}
 
 \begin{frame}
-  ``Optimization is the root of all evil.''
+  \frametitle{Premature optimization}
+
+  ``Programmers waste enormous amounts of time thinking about, or
+  worrying about, the speed of noncritical parts of their programs,
+  and these attempts at efficiency actually have a strong negative
+  impact when debugging and maintenance are considered. We should
+  forget about small efficiencies, say about 97\% of the time:
+  premature optimization is the root of all evil. Yet we should not
+  pass up our opportunities in that critical 3\%.''
 
   \hfill Donald Knuth
 \end{frame}
@@ -64,15 +72,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Premature optimization}
-
-  ``Programmers waste enormous amounts of time thinking about, or
-  worrying about, the speed of noncritical parts of their programs,
-  and these attempts at efficiency actually have a strong negative
-  impact when debugging and maintenance are considered. We should
-  forget about small efficiencies, say about 97\% of the time:
-  premature optimization is the root of all evil. Yet we should not
-  pass up our opportunities in that critical 3\%.''
+  ``Optimization is the root of all evil.''
 
   \hfill Donald Knuth
 \end{frame}
@@ -101,6 +101,23 @@
   demo
 \end{frame}
 
+\begin{frame}
+  \frametitle{Exercise}
+
+  Please see \texttt{even-odds/exercise.txt}.
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Exercise!}
+
+  Make factorial faster by using a cache (e.g. a dict).
+
+  What about \texttt{functools.lru\_cache}?
+\end{frame}
+
+
 \begin{frame}[fragile]
   \frametitle{\texttt{time} shell builtin}
 
@@ -118,6 +135,14 @@ $ time sleep 5
 ``user'' is CPU time executing the script\\
 ``system'' or ``sys'' is CPU time spent in system calls
 \end{frame}
+
+\begin{frame}
+  \frametitle{Exercise}
+
+  Please see \texttt{pyc-files/exercise.txt}.
+
+\end{frame}
+
 
 \begin{frame}[fragile]
   \frametitle{\texttt{cProfile}}
@@ -171,14 +196,84 @@ callees [n | regexp]: show callees of functions
   \includegraphics[width=\textwidth]{factorial/kcachegrind.png}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{\texttt{kernprof}}
+
+  \begin{minted}{console}
+$ sudo dnf install 'python3dist(line-profiler)'
+(or)
+$ pip3 install --user line_profiler
+\end{minted}
+
+  \bigskip
+
+  \begin{minted}{python}
+@profile
+def slow_function(a, b, **kwargs):
+    ...
+  \end{minted}
+
+  \bigskip
+
+  \begin{minted}{console}
+$ kernprof -l script_to_profile.py
+$ python3 -m line_profiler script_to_profile.py.lprof
+\end{minted}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{\texttt{pysnooper}}
 
+  \begin{minted}{console}
+$ sudo dnf install 'python3dist(pysnooper)'
+(or)
+$ pip3 install --user pysnooper
+\end{minted}
+
+  \bigskip
+
+  \begin{minted}{python3}
+import pysnooper
+
+@pysnooper.snoop()
+def funcition_to_trace(n):
+    ...
+\end{minted}
+
+  \bigskip
+
+\begin{minted}{console}
+$ python3 script_to_trace.py |& less
+\end{minted}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Thanks to …}
+
+  \begin{itemize}
+  \item Pietro Berkes\\
+    {\small \url{https://github.com/ASPP/testing_debugging_profiling}}
+  \item Nelle Veroquaux\\
+    {\small \url{https://github.com/ASPP/2019-camerino-profiling-cython-numba}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Toolbox}
+
+  \url{https://docs.python.org/3/library/profile.html}
+
+  \url{https://kcachegrind.github.io/}
+
+  \url{https://github.com/rkern/line_profiler}
+
+  \url{https://github.com/cool-RR/PySnooper}
+
+  \url{https://pypi.python.org/pypi/memory_profiler}
+
+  \url{http://www.camillescott.org/2013/12/06/yep/}
 \end{frame}
 
 \end{document}
